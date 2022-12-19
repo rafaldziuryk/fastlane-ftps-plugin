@@ -1,4 +1,4 @@
-require 'net/ftptls'
+require 'net/ftp'
 require 'ruby-progressbar'
 
 module Fastlane
@@ -17,7 +17,7 @@ module Fastlane
       end
 
       def self.open(params, folder)
-        ftp = Net::FTPTLS.new()
+        ftp = Net::FTP.new
         ftp.connect(params[:host], params[:port])
         ftp.login(params[:username], params[:password])
         ftp.passive = true
@@ -38,7 +38,7 @@ module Fastlane
       end
 
       def self.put(params)
-        ftp = Net::FTPTLS.new()
+        ftp = Net::FTP.new
         progressbar = ProgressBar.create(:format => '%a |%b>>%i| %p%% %t', :starting_at => 0)
         ftp.connect(params[:host], params[:port])
         ftp.login(params[:username], params[:password])
@@ -54,7 +54,7 @@ module Fastlane
       end
 
       def self.get(params)
-        ftp = Net::FTPTLS.new()
+        ftp = Net::FTP.new
         ftp.passive = true
         ftp.connect(params[:host], params[:port])
         ftp.login(params[:username], params[:password])
