@@ -17,7 +17,7 @@ module Fastlane
       end
 
       def self.open(params, folder)
-        ftp = Net::FTPTLS.new()
+        ftp = Net::FTPTLS.new(params[:host], {})
         ftp.connect(params[:host], params[:port])
         ftp.login(params[:username], params[:password])
         ftp.passive = true
