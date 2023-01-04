@@ -1,4 +1,4 @@
-# ftp plugin
+# ftps plugin
 
 [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-ftp)
 [![Build Status](https://travis-ci.org/PoissonBallon/fastlane-ftp-plugin.svg?branch=master)](https://travis-ci.org/PoissonBallon/fastlane-ftp-plugin)

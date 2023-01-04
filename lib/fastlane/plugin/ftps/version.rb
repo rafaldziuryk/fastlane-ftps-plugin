@@ -1,5 +1,5 @@
 module Fastlane
-  module Ftp
-    VERSION = "0.1.5"
+  module Ftps
+    VERSION = "0.1.6"
   end
 end
