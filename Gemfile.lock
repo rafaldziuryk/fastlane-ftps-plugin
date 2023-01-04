@@ -195,7 +195,7 @@ PLATFORMS
 DEPENDENCIES
   bundler
   fastlane (>= 2.2.0)
-  fastlane-plugin-ftp!
+  fastlane-plugin-ftps!
   pry
   rake
   rspec
