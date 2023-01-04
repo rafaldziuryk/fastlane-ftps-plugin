@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'fastlane/plugin/ftp/version'
+require 'fastlane/plugin/ftps/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'fastlane-plugin-ftps'
-  spec.version       = Fastlane::Ftp::VERSION
+  spec.version       = Fastlane::Ftps::VERSION
   spec.author        = %q{Rafał Dziuryk}
   spec.email         = %q{rafal.dziuryk@appvinio.com}
 
