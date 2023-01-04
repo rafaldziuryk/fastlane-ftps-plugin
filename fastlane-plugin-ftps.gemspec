@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'fastlane/plugin/ftp/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'fastlane-plugin-ftp'
+  spec.name          = 'fastlane-plugin-ftps'
   spec.version       = Fastlane::Ftp::VERSION
-  spec.author        = %q{Allan Vialatte}
-  spec.email         = %q{allan.vialatte@icloud.com}
+  spec.author        = %q{Rafał Dziuryk}
+  spec.email         = %q{rafal.dziuryk@appvinio.com}
 
   spec.summary       = %q{Simple ftp upload and download for Fastlane}
-  spec.homepage      = "https://github.com/PoissonBallon/fastlane-ftp-plugin"
+  spec.homepage      = "https://github.com/rafaldziuryk/fastlane-ftps-plugin"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)

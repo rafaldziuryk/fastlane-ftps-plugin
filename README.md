@@ -5,15 +5,15 @@
 
 ## Getting Started
 
-This project is a [fastlane](https://github.com/fastlane/fastlane) plugin. To get started with `fastlane-plugin-ftp`, add it to your project by running:
+This project is a [fastlane](https://github.com/fastlane/fastlane) plugin. To get started with `fastlane-plugin-ftps`, add it to your project by running:
 
 ```bash
-fastlane add_plugin ftp
+fastlane add_plugin ftps
 ```
 
 ## About ftp
 
-Simple FTP plugins for Fastlane
+Simple FTPS plugins for Fastlane
 
 Support Download and Upload
 
@@ -29,7 +29,11 @@ Support Download and Upload
     upload: {
       src: "./localFile",
       dest:"/server/path/"
-    }
+    },
+    options: {
+     ssl: true,
+     port: ENV["FTP_PORT"],
+   }
     )
 ```
 
@@ -44,6 +48,11 @@ Support Download and Upload
       src: "/distant/server/path/file.md",
       dest:"/localPath/file.md"
     }
+    ,
+    options: {
+     ssl: true,
+     port: ENV["FTP_PORT"],
+   }
     )
 ```
 

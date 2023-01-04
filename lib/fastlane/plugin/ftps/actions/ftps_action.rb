@@ -3,16 +3,16 @@ require 'ruby-progressbar'
 
 module Fastlane
   module Actions
-    class FtpAction < Action
+    class FtpsAction < Action
       def self.run(params)
         
         if params[:upload]
-          FtpAction.open(params, params[:upload][:dest])
-          FtpAction.put(params)
+          FtpsAction.open(params, params[:upload][:dest])
+          FtpsAction.put(params)
         end
 
         if params[:download]
-          FtpAction.get(params)
+          FtpsAction.get(params)
         end
       end
 
@@ -141,7 +141,7 @@ module Fastlane
     end
 
     def self.authors
-      ["Allan Vialatte"]
+      ["Allan Vialatte, Rafał Dziuryk"]
     end
 
     def self.is_supported?(platform)

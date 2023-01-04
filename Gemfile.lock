@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fastlane-plugin-ftp (0.1.5)
+    fastlane-plugin-ftps (0.1.5)
       ruby-progressbar
 
 GEM
