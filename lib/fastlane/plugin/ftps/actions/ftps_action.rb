@@ -7,13 +7,11 @@ module Fastlane
       def self.run(params)
         
         if params[:upload]
-          FtpsAction.open(params, params[:upload][:dest])
           FtpsAction.put(params)
         end
 
         if params[:upload_multiple]
-          FtpsAction.open(params, params[:upload][:dest])
-          FtpsAction.put(params)
+          FtpsAction.upload_multiple(params)
         end
 
         if params[:download]
@@ -62,10 +60,7 @@ module Fastlane
       end
 
       def self.get(params)
-        ftp = Net::FTP.new(params[:host], params[:options])
-        ftp.passive = true
-        ftp.connect(params[:host], params[:port])
-        ftp.login(params[:username], params[:password])
+        ftp = connect_ftp(params)
         UI.success("Successfully Login to #{params[:host]}:#{params[:port]}")
         ftp.getbinaryfile(params[:download][:src], params[:download][:dest]) do |data|
         end
@@ -73,11 +68,12 @@ module Fastlane
         UI.success("Successfully download #{params[:download][:dest]}")
     end
 
-    def self.upload_multiple(params, file_paths)
+    def self.upload_multiple(params)
       ftp = connect_ftp(params)
       
       # Upewniamy się, że ścieżka (folder) do której wgrywamy istnieje.
       ensure_remote_path(ftp, params[:upload][:dest])
+      file_paths = params[:upload][:src]
       ftp.chdir(params[:upload][:dest])
     
       total_size = file_paths.reduce(0) { |sum, file_path| sum + File.size(file_path) }
