@@ -11,6 +11,11 @@ module Fastlane
           FtpsAction.put(params)
         end
 
+        if params[:upload_multiple]
+          FtpsAction.open(params, params[:upload][:dest])
+          FtpsAction.put(params)
+        end
+
         if params[:download]
           FtpsAction.get(params)
         end
@@ -68,7 +73,7 @@ module Fastlane
         UI.success("Successfully download #{params[:download][:dest]}")
     end
 
-    def self.put_multiple(params, file_paths)
+    def self.upload_multiple(params, file_paths)
       ftp = connect_ftp(params)
       
       # Upewniamy się, że ścieżka (folder) do której wgrywamy istnieje.
