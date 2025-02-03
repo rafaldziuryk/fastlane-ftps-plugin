@@ -16,6 +16,13 @@ module Fastlane
         end
       end
 
+      def self.connect_ftp(params)
+        ftp = connect_ftp(params)
+        ensure_remote_path(ftp, folder)
+        ftp.close
+      end
+    
+
       def self.open(params, folder)
         ftp = Net::FTP.new(params[:host], params[:options])
         ftp.connect(params[:host], params[:port])
@@ -38,11 +45,7 @@ module Fastlane
       end
 
       def self.put(params)
-        ftp = Net::FTP.new(params[:host], params[:options])
-        progressbar = ProgressBar.create(:format => '%a |%b>>%i| %p%% %t', :starting_at => 0)
-        ftp.connect(params[:host], params[:port])
-        ftp.login(params[:username], params[:password])
-        ftp.passive = true
+        ftp = connect_ftp(params)
         ftp.chdir(params[:upload][:dest])
         filesize = File.size(params[:upload][:src])      
         progressbar.total = filesize
@@ -64,6 +67,49 @@ module Fastlane
         ftp.close()
         UI.success("Successfully download #{params[:download][:dest]}")
     end
+
+    def self.put_multiple(params, file_paths)
+      ftp = connect_ftp(params)
+      
+      # Upewniamy się, że ścieżka (folder) do której wgrywamy istnieje.
+      ensure_remote_path(ftp, params[:upload][:dest])
+      ftp.chdir(params[:upload][:dest])
+    
+      total_size = file_paths.reduce(0) { |sum, file_path| sum + File.size(file_path) }
+      progressbar = ProgressBar.create(
+        format: '%a |%b>>%i| %p%% %t',
+        total: total_size,
+        starting_at: 0
+      )
+    
+      file_paths.each do |local_file|
+        filename = File.basename(local_file)
+        ftp.putbinaryfile(local_file, filename) do |data|
+          progressbar.progress += data.size
+        end
+        UI.message("Uploaded: #{filename}")
+      end
+    
+      ftp.close
+      UI.success("Successfully uploaded all files to #{params[:upload][:dest]}")
+    end
+
+    def ensure_remote_path(ftp, folder)
+      parts = folder.split('/')
+      current_path = ''
+      parts.each do |part|
+        # Pomijamy puste elementy (np. jeśli folder zaczyna się od '/')
+        next if part.empty?
+    
+        current_path = "#{current_path}/#{part}"
+        begin
+          ftp.chdir(current_path)
+        rescue Net::FTPPermError
+          ftp.mkdir(part)
+          ftp.chdir(current_path)
+        end
+      end
+    end    
 
     #####################################################
     # @!group Documentation
