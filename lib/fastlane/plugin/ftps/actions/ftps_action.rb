@@ -36,7 +36,7 @@ module Fastlane
 
       def self.put(params)
         ftp = connect_ftp(params)
-        ensure_remote_path(params[:upload][:dest], folder)
+        ensure_remote_path(ftp, params[:upload][:dest])
         ftp.chdir(params[:upload][:dest])
         filesize = File.size(params[:upload][:src])      
         progressbar.total = filesize
@@ -60,8 +60,10 @@ module Fastlane
       ftp = connect_ftp(params)
       
       # Upewniamy się, że ścieżka (folder) do której wgrywamy istnieje.
-      base_file_path= params[:upload][:base_file_path]
-      file_paths = params[:upload][:src]
+      base_file_path = params[:upload_multiple][:base_file_path]
+      file_paths = params[:upload_multiple][:src]
+
+      ensure_remote_path(ftp, params[:upload_multiple][:dest])
     
       total_size = file_paths.reduce(0) { |sum, file_path| sum + File.size(file_path) }
       progressbar = ProgressBar.create(
