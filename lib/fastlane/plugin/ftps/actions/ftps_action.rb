@@ -29,6 +29,7 @@ module Fastlane
             ftp.chdir(current_path)
           end
         end
+        ftp.chdir('~/')
       end
 
       def self.connect_ftp(params)
