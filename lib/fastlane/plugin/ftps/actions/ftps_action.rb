@@ -72,6 +72,7 @@ module Fastlane
       ftp = connect_ftp(params)
       
       # Upewniamy się, że ścieżka (folder) do której wgrywamy istnieje.
+      base_file_apth= params[:upload][:base_file_apth]
       ensure_remote_path(ftp, params[:upload][:dest])
       file_paths = params[:upload][:src]
       ftp.chdir(params[:upload][:dest])
@@ -84,11 +85,22 @@ module Fastlane
       )
     
       file_paths.each do |local_file|
-        filename = File.basename(local_file)
-        ftp.putbinaryfile(local_file, filename) do |data|
-          progressbar.progress += data.size
+        relative_path = local_file.sub(%r{\A#{Regexp.escape(base_file_path)}/?}, '')
+        dir_name  = File.dirname(relative_path)
+        file_name = File.basename(relative_path)
+
+        dir_name = "" if dir_name == "."
+
+        remote_path = if dir_name.empty?
+          remote_base
+        else
+          File.join(remote_base, dir_name)
         end
-        UI.message("Uploaded: #{filename}")
+
+        ensure_remote_path(ftp, remote_path)
+        ftp.chdir(remote_path)
+        ftp.putbinaryfile(local_file, file_name)
+        UI.message("Uploaded #{local_file} -> #{File.join(remote_path, file_name)}")
       end
     
       ftp.close
