@@ -84,6 +84,8 @@ module Fastlane
         # )
 
         file_paths.each do |local_file|
+          UI.success("Successfully try #{local_file}")
+
           next unless File.file?(local_file)
 
           relative_path = local_file.sub(%r{\A#{Regexp.escape(base_file_path)}/?}, '')
@@ -108,7 +110,7 @@ module Fastlane
         end
 
         ftp.close
-        UI.success("Successfully uploaded all files to #{params[:upload][:dest]}")
+        UI.success("Successfully uploaded all files to #{params[:upload_multiple][:dest]}")
       end
 
       #####################################################
