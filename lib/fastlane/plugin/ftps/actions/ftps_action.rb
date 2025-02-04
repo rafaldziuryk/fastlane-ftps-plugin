@@ -60,7 +60,7 @@ module Fastlane
       ftp = connect_ftp(params)
       
       # Upewniamy się, że ścieżka (folder) do której wgrywamy istnieje.
-      base_file_apth= params[:upload][:base_file_path]
+      base_file_path= params[:upload][:base_file_path]
       file_paths = params[:upload][:src]
     
       total_size = file_paths.reduce(0) { |sum, file_path| sum + File.size(file_path) }
