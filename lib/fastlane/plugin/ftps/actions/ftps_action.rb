@@ -75,15 +75,17 @@ module Fastlane
 
         ensure_remote_path(ftp, params[:upload_multiple][:dest])
 
-        total_size = file_paths.reduce(0) { |sum, file_path| sum + File.size(file_path) }
-        progressbar = ProgressBar.create(
-          format: '%a |%b>>%i| %p%% %t',
-          total: total_size,
-          starting_at: 0
-        )
+        # total_size = file_paths.reduce(0) { |sum, file_path| sum + File.size(file_path) }
+        # progressbar = ProgressBar.create(
+        #   format: '%a |%b>>%i| %p%% %t',
+        #   total: total_size,
+        #   starting_at: 0
+        # )
 
         file_paths.each do |local_file|
           relative_path = local_file.sub(%r{\A#{Regexp.escape(base_file_path)}/?}, '')
+          UI.success("Successfully download #{local_file} #{base_file_path} #{relative_path}")
+
           dir_name  = File.dirname(relative_path)
           file_name = File.basename(relative_path)
 
@@ -95,6 +97,7 @@ module Fastlane
                           File.join(remote_base, dir_name)
                         end
 
+          UI.success("Successfully ensure_remote_path #{remote_path}")
           ensure_remote_path(ftp, remote_path)
           ftp.chdir(remote_path)
           ftp.putbinaryfile(local_file, file_name)
