@@ -14,7 +14,7 @@ module Fastlane
         FtpsAction.get(params)
       end
 
-      def ensure_remote_path(ftp, folder)
+      def self.ensure_remote_path(ftp, folder)
         parts = folder.split('/')
         current_path = ''
         parts.each do |part|
