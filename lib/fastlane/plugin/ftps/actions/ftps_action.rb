@@ -73,7 +73,8 @@ module Fastlane
         base_file_path = params[:upload_multiple][:base_file_path]
         file_paths = params[:upload_multiple][:src]
 
-        ensure_remote_path(ftp, params[:upload_multiple][:dest])
+        remote_base = params[:upload_multiple][:dest]
+        ensure_remote_path(ftp, remote_base)
 
         # total_size = file_paths.reduce(0) { |sum, file_path| sum + File.size(file_path) }
         # progressbar = ProgressBar.create(
