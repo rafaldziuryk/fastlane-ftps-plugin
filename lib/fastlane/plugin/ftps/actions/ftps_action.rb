@@ -19,6 +19,23 @@ module Fastlane
         end
       end
 
+      def ensure_remote_path(ftp, folder)
+        parts = folder.split('/')
+        current_path = ''
+        parts.each do |part|
+          # Pomijamy puste elementy (np. jeśli folder zaczyna się od '/')
+          next if part.empty?
+      
+          current_path = "#{current_path}/#{part}"
+          begin
+            ftp.chdir(current_path)
+          rescue Net::FTPPermError
+            ftp.mkdir(part)
+            ftp.chdir(current_path)
+          end
+        end
+      end      
+
       def self.connect_ftp(params)
         ftp = open(params)
         ftp
@@ -94,23 +111,6 @@ module Fastlane
       ftp.close
       UI.success("Successfully uploaded all files to #{params[:upload][:dest]}")
     end
-
-    def ensure_remote_path(ftp, folder)
-      parts = folder.split('/')
-      current_path = ''
-      parts.each do |part|
-        # Pomijamy puste elementy (np. jeśli folder zaczyna się od '/')
-        next if part.empty?
-    
-        current_path = "#{current_path}/#{part}"
-        begin
-          ftp.chdir(current_path)
-        rescue Net::FTPPermError
-          ftp.mkdir(part)
-          ftp.chdir(current_path)
-        end
-      end
-    end    
 
     #####################################################
     # @!group Documentation
