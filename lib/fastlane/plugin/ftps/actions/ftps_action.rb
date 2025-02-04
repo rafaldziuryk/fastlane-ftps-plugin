@@ -84,6 +84,8 @@ module Fastlane
         # )
 
         file_paths.each do |local_file|
+          next unless File.file?(local_file)
+
           relative_path = local_file.sub(%r{\A#{Regexp.escape(base_file_path)}/?}, '')
           UI.success("Successfully download #{local_file} #{base_file_path} #{relative_path}")
 
