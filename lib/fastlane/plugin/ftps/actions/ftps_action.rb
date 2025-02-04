@@ -19,13 +19,13 @@ module Fastlane
         end
       end
 
-      def self.connect_ftp(params)
+      def self.connect_ftp(params)x
         ftp = open(params)
         ftp
       end
     
 
-      def self.open(param)
+      def self.open(params)
         ftp = Net::FTP.new(params[:host], params[:options])
         ftp.connect(params[:host], params[:port])
         ftp.login(params[:username], params[:password])
