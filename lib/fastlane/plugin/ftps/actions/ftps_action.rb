@@ -19,7 +19,7 @@ module Fastlane
         end
       end
 
-      def self.connect_ftp(params)x
+      def self.connect_ftp(params)
         ftp = open(params)
         ftp
       end
