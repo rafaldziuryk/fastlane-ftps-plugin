@@ -19,36 +19,24 @@ module Fastlane
         end
       end
 
-      def self.connect_ftp(params)
-        ftp = connect_ftp(params)
-        ensure_remote_path(ftp, folder)
-        ftp.close
+      def self.connect_ftp(params, folder)
+        ftp = open(params, folder)
+        ftp
       end
     
 
-      def self.open(params, folder)
+      def self.open(param, folder)
         ftp = Net::FTP.new(params[:host], params[:options])
         ftp.connect(params[:host], params[:port])
         ftp.login(params[:username], params[:password])
         ftp.passive = true
         UI.success("Successfully Login to #{params[:host]}:#{params[:port]}")
-        parts = folder.split("/")
-        growing_path = ""
-        parts.each do |part|
-          growing_path += "/" + part
-          begin
-            ftp.chdir(growing_path)
-          rescue
-            ftp.mkdir(part) unless File.exist?(growing_path)
-            retry
-          end
-        end
-        ftp.close()
-        UI.success("FTP move in #{growing_path} on #{params[:host]}:#{params[:port]}")
+        ftp
       end
 
       def self.put(params)
         ftp = connect_ftp(params)
+        ensure_remote_path(params[:upload][:dest], folder)
         ftp.chdir(params[:upload][:dest])
         filesize = File.size(params[:upload][:src])      
         progressbar.total = filesize
@@ -73,9 +61,7 @@ module Fastlane
       
       # Upewniamy się, że ścieżka (folder) do której wgrywamy istnieje.
       base_file_apth= params[:upload][:base_file_apth]
-      ensure_remote_path(ftp, params[:upload][:dest])
       file_paths = params[:upload][:src]
-      ftp.chdir(params[:upload][:dest])
     
       total_size = file_paths.reduce(0) { |sum, file_path| sum + File.size(file_path) }
       progressbar = ProgressBar.create(
