@@ -50,6 +50,7 @@ module Fastlane
         ensure_remote_path(ftp, params[:upload][:dest])
         ftp.chdir(params[:upload][:dest])
         filesize = File.size(params[:upload][:src])
+        progressbar = ProgressBar.create(format: '%a |%b>>%i| %p%% %t', starting_at: 0)
         progressbar.total = filesize
         ftp.putbinaryfile(params[:upload][:src], params[:upload][:src].split('/').last) do |data|
           progressbar.progress += data.size
