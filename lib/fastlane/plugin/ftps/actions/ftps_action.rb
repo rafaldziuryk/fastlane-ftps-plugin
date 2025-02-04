@@ -169,7 +169,7 @@ module Fastlane
         is_string: false,
         type: Hash),
         FastlaneCore::ConfigItem.new(key: :upload_multiple,
-        short_option: "-UM",
+        short_option: "-I",
         env_name: "FL_FTP_UPLOAD_MULTIPLE",
         description: "Upload",
         optional: true,
