@@ -15,6 +15,7 @@ module Fastlane
       end
 
       def self.ensure_remote_path(ftp, folder)
+	UI.success("Ensure Remote Path")
 	home = ftp.pwd               # zapamiętaj katalog startowy     
         parts = folder.split('/')
         current_path = '.'
@@ -24,13 +25,20 @@ module Fastlane
 
           current_path = "#{current_path}/#{part}"
           begin
+	    UI.success("Current Path chdir #{current_path} begin")
             ftp.chdir(current_path)
+	    UI.success("Current Path chdir #{current_path} end")
           rescue Net::FTPPermError
+	    UI.success("Rescue mkdir #{part}")
             ftp.mkdir(part)
+	    UI.success("Rescue chdir #{current_path}")
             ftp.chdir(current_path)
+  	    UI.success("Rescue chdir end")
           end
         end
+	UI.success("chdir home begin")
         ftp.chdir(home)
+	UI.success("chdir home end")
       end
 
       def self.connect_ftp(params)
