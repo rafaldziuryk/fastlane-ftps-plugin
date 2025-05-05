@@ -15,8 +15,9 @@ module Fastlane
       end
 
       def self.ensure_remote_path(ftp, folder)
+	home = ftp.pwd               # zapamiętaj katalog startowy     
         parts = folder.split('/')
-        current_path = ''
+        current_path = '.'
         parts.each do |part|
           # Pomijamy puste elementy (np. jeśli folder zaczyna się od '/')
           next if part.empty?
@@ -29,7 +30,7 @@ module Fastlane
             ftp.chdir(current_path)
           end
         end
-        ftp.chdir('~/')
+        ftp.chdir(home)
       end
 
       def self.connect_ftp(params)
