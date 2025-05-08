@@ -18,7 +18,7 @@ module Fastlane
 	UI.success("Ensure Remote Path")
 	home = ftp.pwd               # zapamiętaj katalog startowy     
         parts = folder.split('/')
-        current_path = '.'
+        current_path = '~'
         parts.each do |part|
           # Pomijamy puste elementy (np. jeśli folder zaczyna się od '/')
           next if part.empty?
