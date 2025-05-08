@@ -37,7 +37,7 @@ module Fastlane
           end
         end
 	UI.success("chdir home begin")
-        ftp.chdir(home)
+        ftp.chdir('~')
 	UI.success("chdir home end")
       end
 
