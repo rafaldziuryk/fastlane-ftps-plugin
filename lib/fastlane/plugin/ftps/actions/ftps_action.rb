@@ -37,7 +37,11 @@ module Fastlane
           end
         end
 	UI.success("chdir home begin")
-        ftp.chdir('~')
+        begin
+          ftp.chdir('~')
+        rescue Net::FTPPermError
+          ftp.chdir(home)
+        end
 	UI.success("chdir home end")
       end
 
